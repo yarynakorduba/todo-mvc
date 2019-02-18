@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <title>todos</title>
   </head>
-  <body>
-    <div class="TodoApp">
-      <h1 class="TodoApp__header">todos</h1>
+  <body class="TodoApp">
+    <h1 class="TodoApp__header">todos</h1>
+    <div class="TodoApp__container">
       <form class="TodoApp__form">
         <input
           class="TodoApp__input"
@@ -14,14 +14,14 @@
           placeholder="What needs to be done?"
         />
       </form>
-      <ul class="TodoApp__list" ></ul>
+      <ul class="TodoApp__list"></ul>
       <footer>
         <span class="TodoApp__count" />
-        <li>
+        <span>
           <a class="TodoApp__navlink" href="/#/">All</a>
           <a class="TodoApp__navlink" href="/#/active">Active</a>
           <a class="TodoApp__navlink" href="/#/completed">Completed</a>
-        </li>
+        </span>
       </footer>
       <link href="styles.css" rel="type/stylesheet" />
       <div class="app"></div>
