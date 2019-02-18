@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>todos</title>
+  </head>
+  <body>
+    <div class="TodoApp">
+      <h1 class="TodoApp__header">todos</h1>
+      <form class="TodoApp__form">
+        <input
+          class="TodoApp__input"
+          name="todo"
+          placeholder="What needs to be done?"
+        />
+      </form>
+      <ul class="TodoApp__list" ></ul>
+      <footer>
+        <span class="TodoApp__count" />
+        <li>
+          <a href="/#/">All</a>
+          <a href="/#/active">Active</a>
+          <a href="/#/completed">Completed</a>
+        </li>
+      </footer>
+      <link href="styles.css" rel="type/stylesheet" />
+      <div class="app"></div>
+      <script src="dist/app.bundle.js"></script>
+    </div>
+  </body>
+</html>
