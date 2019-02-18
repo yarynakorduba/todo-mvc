@@ -5,4 +5,4 @@ import View from './TodoAppView'
 const model = new Model()
 const view = new View(model)
 new Controller(model, view)
-view.show()
+view.renderTodoList()

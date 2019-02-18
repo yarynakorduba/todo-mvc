@@ -6,24 +6,29 @@ class TodoAppModel extends EventEmitter {
     this._todos = todos || []
   }
 
-  getTodos() {
-    return this._todos.slice()
-  }
+  getTodos = () => Object.assign({}, this._todos)
 
-  addTodo(todo) {
-    this._todos = [...this._todos, { todo: todo, completed: false }]
+  addTodo = (todo) => {
+    const todoId = Math.random()
+    this._todos = {...this._todos, [todoId]: {id: todoId, todo: todo, completed: false }}
     this.emit('todoAdded', todo)
   }
 
-  removeTodo(todoIndex) {
-    this._todos.splice(todoIndex, 1)
+  removeTodo = (todoIndex) => {
+    const {[todoIndex]: todo, ...rest} = this._todos
+    this._todos = {...rest}
     this.emit('todoRemoved')
   }
-  toggleTodo(todoIndex) {
+  toggleTodo = (todoIndex) => {
     this._todos[todoIndex] = {
       ...this._todos[todoIndex],
       completed: !this._todos[todoIndex].completed
     }
+    this.emit('todoToggled')
+  }
+
+  editTodo = ({id, text}) => {
+    this._todos = {...this._todos, [id]: {...this._todos[id], todo: text}}
   }
 }
 export default TodoAppModel

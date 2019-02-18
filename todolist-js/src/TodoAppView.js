@@ -1,13 +1,16 @@
 import EventEmitter from './EventEmitter'
 
+const isCompleted = (item) => item.completed;
+const isActive = (item) => !item.completed;
+
 class TodoAppView extends EventEmitter {
   constructor(model) {
     super()
     this._model = model
 
-    document.querySelector('.TodoApp__form').addEventListener('submit', ev => {
+    document.querySelector('.TodoApp__form').addEventListener('submit', ev =>
       ev.preventDefault()
-    })
+    )
     document
       .querySelector('.TodoApp__input')
       .addEventListener('keypress', ev => {
@@ -18,25 +21,36 @@ class TodoAppView extends EventEmitter {
         }
       })
     model
-      .on('todoAdded', () => this.renderList())
-      .on('todoRemoved', () => this.renderList())
-      .on('todoToggled', () => this.renderList())
+      .on('todoAdded', (ev) => this.renderTodoList(ev))
+      .on('todoRemoved', (ev) => this.renderTodoList(ev))
+      .on('todoToggled', (ev) => this.renderTodoList(ev))
+      .on('todoEdited', (ev) => this.renderTodoList(ev))
   }
 
-  show() {
-    this.renderList()
+  editTodoItem = (ev) => {
+    const key = ev.which || ev.keyCode
+    if (key === 13) {
+      ev.preventDefault()
+      this.emit('todoEdited',{id: ev.target.id, text: ev.target.innerHTML})
+      ev.target.blur()
+    }
   }
 
-  renderList() {
-    const todos = this._model.getTodos()
-    document.querySelector('.TodoApp__list').innerHTML = todos
+  _renderTodoItem = (todoItem) => `<li id=${todoItem.id}>`+
+    `<input id=${todoItem.id} type="checkbox" class="TodoApp__complete-checkbox" ${todoItem.completed && "checked"} >` +
+      `<span id=${todoItem.id} class="TodoApp__todo-text" contenteditable="true">${todoItem.todo}</span>` +
+      `<button id=${todoItem.id} class="TodoApp__delete-button">x</button></li>`
+
+
+  renderTodoList = (ev) => {
+    const currentUrl = ev && ev.target ? ev.target.hash : window.location.hash
+    const todos = Object.values(this._model.getTodos())
+    const filteredTodos = (currentUrl === "#/completed") ?
+      todos.filter(isCompleted) :
+      ((currentUrl === "#/active") ? todos.filter(isActive) : todos)
+    document.querySelector('.TodoApp__list').innerHTML = filteredTodos
       .map(
-        (todoItem, index) =>
-          `<li id=${index}><input id=${index} type="checkbox" class="TodoApp__complete-checkbox" value=${
-            todoItem.completed
-          }>` +
-          todoItem.todo +
-          `<button id=${index} class="TodoApp__delete-button">x</button></li>`
+        (todoItem) => this._renderTodoItem(todoItem)
       )
       .join('\n')
     document
@@ -46,7 +60,6 @@ class TodoAppView extends EventEmitter {
           this.emit('delButtonClicked', ev.target.id)
         )
       )
-
     document
       .querySelectorAll('.TodoApp__complete-checkbox')
       .forEach(button =>
@@ -54,6 +67,9 @@ class TodoAppView extends EventEmitter {
           this.emit('todoToggled', ev.target.id)
         )
       )
+
+    document.querySelectorAll(".TodoApp__todo-text").forEach(todo => todo.addEventListener('keypress',  ev => this.editTodoItem(ev)))
+    document.querySelectorAll(".TodoApp__navlink").forEach(link => link.addEventListener('click', ev => this.renderTodoList(ev)))
   }
 }
 export default TodoAppView
