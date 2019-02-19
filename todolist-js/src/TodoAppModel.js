@@ -30,5 +30,11 @@ class TodoAppModel extends EventEmitter {
   editTodo = ({id, text}) => {
     this._todos = {...this._todos, [id]: {...this._todos[id], todo: text}}
   }
+
+  deleteCompletedTodos = () => {
+    const updatedTodos = {}
+      Object.keys(this._todos).map(id => {if (!this._todos[id].completed) updatedTodos[id] = this._todos[id]})
+    this._todos = updatedTodos
+  }
 }
 export default TodoAppModel

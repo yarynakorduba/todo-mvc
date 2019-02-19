@@ -7,6 +7,7 @@ class TodoAppView extends EventEmitter {
   constructor(model) {
     super()
     this._model = model
+    this._currentURL = window.location.hash
 
     document
       .querySelector('.TodoApp__form')
@@ -25,6 +26,7 @@ class TodoAppView extends EventEmitter {
       .on('todoRemoved', ev => this.renderTodoList(ev))
       .on('todoToggled', ev => this.renderTodoList(ev))
       .on('todoEdited', ev => this.renderTodoList(ev))
+      .on('completedTodosDeleted', ev => this.renderTodoList(ev))
   }
 
   editTodoItem = ev => {
@@ -52,12 +54,14 @@ class TodoAppView extends EventEmitter {
     } class="TodoApp__delete-button">&times;</button></li>`
 
   renderTodoList = ev => {
-    const currentUrl = ev && ev.target ? ev.target.hash : window.location.hash
+    this._currentURL = ev && ev.target ? ev.target.hash : window.location.hash
     const todos = Object.values(this._model.getTodos())
+    const todosAreLeft = todos.filter(isActive).length
+    console.log("active are ", todosAreLeft, "todos")
     const filteredTodos =
-      currentUrl === '#/completed'
+      this._currentURL === '#/completed'
         ? todos.filter(isCompleted)
-        : currentUrl === '#/active'
+        : this._currentURL === '#/active'
         ? todos.filter(isActive)
         : todos
     document.querySelector('.TodoApp__list').innerHTML = filteredTodos
@@ -79,6 +83,7 @@ class TodoAppView extends EventEmitter {
       )
     })
 
+
     document
       .querySelectorAll('.TodoApp__complete-checkbox')
       .forEach(button =>
@@ -87,6 +92,10 @@ class TodoAppView extends EventEmitter {
         )
       )
 
+    document.querySelector('.TodoApp__clear').addEventListener('click',
+        ev => console.log("clicked to delete compl") ||
+          this.emit('completedTodosDeleted', ev))
+
     document
       .querySelectorAll('.TodoApp__todo-text')
       .forEach(todo =>
@@ -94,9 +103,17 @@ class TodoAppView extends EventEmitter {
       )
     document
       .querySelectorAll('.TodoApp__navlink')
-      .forEach(link =>
-        link.addEventListener('click', ev => this.renderTodoList(ev))
+      .forEach(link => {
+          link.addEventListener('click', ev => this.renderTodoList(ev))
+        console.log("link ===> ", link.hash, link.siblings, link.classList)
+          if (this._currentURL === link.hash) {
+            link.classList.add("TodoApp__navlink_active")
+          }else {
+            link.classList.remove("TodoApp__navlink_active")
+          }
+        }
       )
+    document.querySelector(".TodoApp__count").innerHTML = todosAreLeft + " items left"
   }
 }
 export default TodoAppView
