@@ -97,6 +97,7 @@ html {
 }
 
 .TodoApp__clear {
+  cursor: pointer;
   color: gray;
   font-size: 0.875rem;
 }
