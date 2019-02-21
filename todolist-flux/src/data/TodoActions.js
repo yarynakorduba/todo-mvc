@@ -6,8 +6,7 @@ import {
   START_EDITING_TODO,
   STOP_EDITING_TODO,
   TOGGLE_ALL_TODOS,
-  TOGGLE_TODO,
-  UPDATE_DRAFT
+  TOGGLE_TODO
 } from './TodoActionTypes'
 import TodoDispatcher from './TodoDispatcher'
 
@@ -18,14 +17,6 @@ const Actions = {
       text
     })
   },
-  updateDraft(id, text) {
-    TodoDispatcher.dispatch({
-      type: UPDATE_DRAFT,
-      id,
-      text
-    })
-  },
-
   deleteTodo(id) {
     TodoDispatcher.dispatch({
       type: DELETE_TODO,
@@ -47,7 +38,6 @@ const Actions = {
   toggleAllTodos() {
     TodoDispatcher.dispatch({ type: TOGGLE_ALL_TODOS })
   },
-
   editTodo(id, text) {
     TodoDispatcher.dispatch({ type: EDIT_TODO, id, text })
   },

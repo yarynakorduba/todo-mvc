@@ -22,4 +22,13 @@
       opacity: 1;
     }
   }
+
+  &__toggle {
+    background: transparent;
+    border: none;
+    position: absolute;
+    left: 0.75rem;
+    top: 1.25rem;
+    color: lightgrey;
+  }
 }

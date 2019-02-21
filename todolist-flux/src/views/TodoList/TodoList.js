@@ -1,13 +1,22 @@
 import React from 'react'
 import TodoItem from '../TodoItem'
 import './TodoList.scss'
+import { withRouter } from 'react-router'
 
 const TodoList = props => {
+  const { todos, location } = props
+  const todoValues = [...todos.values()]
+  const filteredTodos =
+    location.hash === '#/completed'
+      ? todoValues.filter(todo => todo.complete)
+      : location.hash === '#/active'
+      ? todoValues.filter(todo => !todo.complete)
+      : todoValues
   return (
     <section className={'TodoList'}>
-      {props.todos.size !== 0 && (
+      {filteredTodos.size !== 0 && (
         <ul className={'TodoList__list'}>
-          {[...props.todos.values()].reverse().map(todo => (
+          {filteredTodos.reverse().map(todo => (
             <TodoItem
               className={'TodoList__todo'}
               key={todo.id}
@@ -22,4 +31,4 @@ const TodoList = props => {
     </section>
   )
 }
-export default TodoList
+export default withRouter(TodoList)

@@ -8,13 +8,30 @@
     background: transparent;
     border: none;
     color: gray;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 300;
+    cursor: pointer;
   }
 
   &__count {
     color: gray;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 300;
+  }
+
+  &__navlink {
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 300;
+    padding: 0.25rem;
+    margin-right: 0.25rem;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    &:hover {
+      border-color: lightgray;
+    }
+    &_active {
+      border-color: #aeaeae;
+    }
   }
 }

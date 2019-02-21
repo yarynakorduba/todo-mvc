@@ -1,6 +1,6 @@
 import React from 'react'
 import './Header.scss'
 
-const Header = props => <header className="Header">Todos</header>
+const Header = () => <header className="Header">todos</header>
 
 export default Header
