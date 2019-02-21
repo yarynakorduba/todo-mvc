@@ -1,4 +1,4 @@
-import AppView from '../views/AppView'
+import TodoApp from '../views/TodoApp'
 import { Container } from 'flux/utils'
 import TodoStore from '../data/TodoStore'
 import TodoActions from '../data/TodoActions'
@@ -19,4 +19,4 @@ const getState = () => ({
   onStopEditingTodo: TodoActions.stopEditingTodo
 })
 
-export default Container.createFunctional(AppView, getStores, getState)
+export default Container.createFunctional(TodoApp, getStores, getState)

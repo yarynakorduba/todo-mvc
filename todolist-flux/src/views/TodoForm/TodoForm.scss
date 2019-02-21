@@ -1,0 +1,23 @@
+.TodoForm {
+  position: relative;
+  &__input {
+    padding: 1rem 1rem 1rem 60px;
+    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+    border: none;
+    width: 35rem;
+    font-size: 1.5rem;
+    &::placeholder {
+      font-style: italic;
+      color: lightgray;
+    }
+  }
+
+  &__toggle-all {
+    background: transparent;
+    border: none;
+    position: absolute;
+    left: 0.75rem;
+    top: 1.25rem;
+    color: lightgrey;
+  }
+}

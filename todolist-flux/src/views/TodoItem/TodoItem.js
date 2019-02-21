@@ -1,12 +1,25 @@
 import React from 'react'
+import './TodoItem.scss'
 
 const TodoItem = ({ todo, isEditing, ...props }) => {
   let edit = false
   return (
-    <li>
+    <li
+      className={'TodoItem'}
+      onMouseEnter={() =>
+        document
+          .querySelector('.TodoItem__destroy')
+          .classList.add('TodoItem__destroy_visible')
+      }
+      onMouseLeave={() =>
+        document
+          .querySelector('.TodoItem__destroy')
+          .classList.remove('TodoItem__destroy_visible')
+      }
+    >
       <input
         type="checkbox"
-        className={'TodoList__toggle'}
+        className={'TodoItem__toggle'}
         checked={todo.complete}
         onChange={() => props.onToggleTodo(todo.id)}
       />
@@ -29,13 +42,13 @@ const TodoItem = ({ todo, isEditing, ...props }) => {
           onDoubleClick={() => {
             props.onStartEditingTodo(todo.id)
           }}
-          className={'TodoList__todo-text'}
+          className={'TodoItem__text'}
         >
           {todo.text}
         </label>
       )}
       <button
-        className={'TodoList__destroy-todo'}
+        className={'TodoItem__destroy'}
         onClick={() => props.onDeleteTodo(todo.id)}
       >
         &times;
